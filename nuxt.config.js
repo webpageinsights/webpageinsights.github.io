@@ -1,7 +1,7 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'seoassistant',
+    title: 'SEO Assistant',
     htmlAttrs: {
       lang: 'en'
     },
