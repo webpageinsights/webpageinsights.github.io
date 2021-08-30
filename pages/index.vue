@@ -29,45 +29,7 @@
           />
         </b-tab-item>
         <b-tab-item label="Configurações" icon="cog">
-
-          <b-collapse
-            class="card"
-            animation="slide"
-            v-for="(rule, index) in rules"
-            :key="index"
-            :open="isRulesOpen == index"
-            @open="isRulesOpen = index">
-            <template #trigger="props">
-              <div
-                class="card-header"
-                role="button"
-              >
-                <p class="card-header-title">
-                  {{ rule.title }}
-                </p>
-                <a class="card-header-icon">
-                  <b-icon
-                    :icon="props.open ? 'menu-down' : 'menu-up'">
-                  </b-icon>
-                </a>
-              </div>
-            </template>
-            <div class="card-content">
-              <div class="content">
-                <div v-if="rule.options">
-                  <b-field v-for="(option, index) in rule.options" :key="index">
-                    <b-checkbox v-model="option.isChecked">
-                      <span v-html="option.label"></span>
-                    </b-checkbox>
-                  </b-field>
-                </div>
-                <div v-else>
-                  {{ rule.text }}
-                </div>
-              </div>
-            </div>
-          </b-collapse>
-
+          <rules></rules>
         </b-tab-item>
       </b-tabs>
     </section>
@@ -77,8 +39,12 @@
 
 <script type="typescript">
 import Vue from 'vue'
+import Rules from '~/components/Rules.vue'
 
 export default Vue.extend({
+  components: {
+    Rules
+  },
   data() {
     return {
       urls: '',
