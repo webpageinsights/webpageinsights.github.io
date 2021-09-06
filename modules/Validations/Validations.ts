@@ -1,3 +1,7 @@
+import {PossibleLengths} from '~/modules/Auditor/LengthChecker'
+import {Assert} from '~/modules/Auditor/Asserts'
+type ValidationLevels = 'danger' | 'warning' | 'info'
+
 // Toda página deve ter 1 e somente 1 <h1>
 // Toda página deve ter pelo menos um <h2>
 // Todas as imagens da página devem ter atributo alt
@@ -13,7 +17,18 @@
 //-- FALTA
 // Os <h1> deve ter no máximo 150 caracteres
 
-const Validations = [
+export interface ValidationInterface {
+  selector: string;
+  length: PossibleLengths;
+  level: ValidationLevels;
+  condition?: {
+    name: string;
+    assertName: Assert;
+    assertValue?: string;
+  }
+}
+
+const Validations: ValidationInterface[] = [
   {
     selector: "h1",
     level: "danger",
@@ -108,5 +123,4 @@ const Validations = [
     length: "one"
   }
 ];
-
 export default Validations;

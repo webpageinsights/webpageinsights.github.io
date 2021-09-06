@@ -1,17 +1,6 @@
 import LengthChecker, { PossibleLengths } from '~/modules/Auditor/LengthChecker'
-import Asserts, { Assert } from '~/modules/Auditor/Asserts'
-type ValidLevels = 'danger' | 'warning' | 'info'
-
-interface ValidationInterface {
-  selector: string;
-  length: PossibleLengths;
-  level: ValidLevels;
-  condition?: {
-    name: string;
-    assertName: Assert;
-    assertValue?: string;
-  }
-}
+import Asserts  from '~/modules/Auditor/Asserts'
+import {ValidationInterface} from '~/modules/Validations/Validations'
 
 interface ReportInterface {
   hasCorrectLength: boolean;
@@ -23,7 +12,6 @@ interface ReportInterface {
   passed: boolean
 }
 
-
 export default class Auditor {
   validations: ValidationInterface[];
   report: ReportInterface[];
@@ -32,9 +20,9 @@ export default class Auditor {
     this.validations = validations;
   }
 
-  private static stringToHTML(htmlString) {
-    const domparser = new DOMParser();
-    const doc = domparser.parseFromString(htmlString, 'text/html');
+  private static stringToHTML(htmlString: string) {
+    const domParser = new DOMParser();
+    const doc = domParser.parseFromString(htmlString, 'text/html');
     return doc.documentElement;
   };
 
@@ -42,7 +30,7 @@ export default class Auditor {
     this.parse(Auditor.stringToHTML(htmlString))
   }
 
-  parse(doc): void {
+  parse(doc: HTMLElement): void {
     this.report = this.validations.map((validation: ValidationInterface) => {
       const targets = Array.from(doc.querySelectorAll(validation.selector) || []);
 
