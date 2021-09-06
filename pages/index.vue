@@ -40,6 +40,8 @@
 <script type="typescript">
 import Vue from 'vue'
 import Rules from '~/components/Rules.vue'
+import Auditor from '~/modules/Auditor/Auditor.ts'
+import Validations from '~/modules/Validations/Validations.ts'
 
 export default Vue.extend({
   components: {
@@ -74,14 +76,23 @@ export default Vue.extend({
     }
   },
   methods: {
+    stringToHTML (htmlString) {
+      const domparser = new DOMParser();
+      const doc = domparser.parseFromString(htmlString, "text/html");
+      return doc.documentElement;
+    },
     async processUrls() {
       const appScriptId = 'AKfycbzAjIXbOKHT4wSkGoKTkKeXWGuEr5-suBX7BOqew6stjxdLyEBUYSxfgyUCBnC1crNP';
       const url = `https://script.google.com/macros/s/${appScriptId}/exec?url=${this.urlsLists[0]}`;
 
       return await this.$axios.$get(url).then(response => {
         this.isLoading = true;
-        console.log(response);
-        return response;
+        return this.stringToHTML(response.html);
+      }).then(html => {
+        const auditor = new Auditor(Validations);
+        auditor.parse(html)
+        console.log(html)
+        console.log(auditor.report)
       }).finally(() => {
         this.isLoading = false;
       });

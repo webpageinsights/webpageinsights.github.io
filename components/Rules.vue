@@ -39,7 +39,18 @@
     </b-menu-list>
   </b-menu>
   <div class="column is-four-fifths">
-    Exemplo
+    <b-field label="Seletor CSS">
+      <b-input></b-input>
+    </b-field>
+    <b-field label="Quantidade">
+      <b-select placeholder="Selecione a quantidade" required>
+        <option value="zero">Nenhum</option>
+        <option value="zero-plus">Nenhum ou mais</option>
+        <option value="one">Somente 1</option>
+        <option value="one-plus">1 ou mais</option>
+        <option value="more-than-one">Mais que 1</option>
+      </b-select>
+    </b-field>
   </div>
   </section>
 </template>
