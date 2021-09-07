@@ -1,23 +1,14 @@
-import LengthChecker, { PossibleLengths } from '~/modules/Auditor/LengthChecker'
-import Asserts  from '~/modules/Auditor/Asserts'
+import LengthChecker from '~/modules/Auditor/LengthChecker'
+import Asserts from '~/modules/Auditor/Asserts'
 import {ValidationInterface} from '~/modules/Validations/Validations'
-
-interface ReportInterface {
-  hasCorrectLength: boolean;
-  details: {
-    found: number;
-    rejections: ValidationInterface[];
-    expected: PossibleLengths
-  };
-  passed: boolean
-}
 
 export default class Auditor {
   validations: ValidationInterface[];
-  report: ReportInterface[];
+  report: boolean[];
 
   constructor(validations: ValidationInterface[]) {
     this.validations = validations;
+    this.report = [];
   }
 
   private static stringToHTML(htmlString: string) {
@@ -34,24 +25,20 @@ export default class Auditor {
     this.report = this.validations.map((validation: ValidationInterface) => {
       const targets = Array.from(doc.querySelectorAll(validation.selector) || []);
 
-      const rejections = targets.filter(target => {
-        return validation.condition ? Asserts.check(
-          validation.condition.assertName,
-          target.getAttribute(validation.condition.name) || undefined,
-          validation.condition.assertValue
-        ) === true : false;
+      const validate = (target: Element, condition: any) => {
+        return condition && Asserts.check(
+          condition.assertName,
+          target.getAttribute(condition.name) || undefined,
+          condition.assertValue
+        );
+      };
+
+      const rejections = targets.filter((target) => {
+        return validation.condition ? validate(target, validation.condition) : false;
       });
 
       const hasCorrectLength = LengthChecker.check(validation.length, rejections.length);
-      return {
-        passed: hasCorrectLength && rejections.length === 0,
-        hasCorrectLength,
-        details: {
-          expected: validation.length,
-          found: rejections.length,
-          rejections
-        }
-      };
+      return hasCorrectLength && rejections.length === 0;
     })
   }
 }
