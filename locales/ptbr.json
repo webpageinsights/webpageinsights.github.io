@@ -1,0 +1,30 @@
+{
+  "head": {
+    "none:danger": "Não pode existir nenhum elemento",
+    "none:warning": "Recomenda-se que não exista elemento algum",
+    "none:info": "Dica: evite quaisquer elementos",
+    "one:danger": "Deve haver um e somente um elemento",
+    "one:warning": "Recomenda-se a existência de um e somente um elemento",
+    "one:info": "Dica: tente utilizar um e somente um elemento",
+    "some:danger": "Deve haver ao menos um elemento",
+    "some:warning": "Recomenda-se a existência de ao menos um elemento",
+    "some:info": "Dica: procure utilizar ao menos um elemento",
+    "any:danger": "Pode haver zero ou mais elementos",
+    "any:warning": "Recomenda-se a existência de zero ou mais elementos",
+    "any:info": "Dica: pode haver zero ou mais elementos"
+  },
+  "attribute": "com atributo",
+  "method": {
+    "isEqual": "igual a {0}",
+    "isNotEqual": "não igual a {0}",
+    "absoluteUrl": "como url absoluta",
+    "minLength": "com tamanho mínimo de {0}",
+    "maxLength": "com tamanho máximo de {0}",
+    "exists": "existente",
+    "doesNotExist": "não existente",
+    "isNumber": "numérico",
+    "isNotNumber": "não numérico",
+    "contains": "contendo {0}",
+    "doesNotContain": "não contendo {0}"
+  }
+}
