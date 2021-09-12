@@ -40,8 +40,6 @@
 <script type="typescript">
 import Vue from 'vue'
 import Rules from '~/components/Rules.vue'
-import Auditor from '~/modules/Auditor/Auditor.ts'
-import Validations from '~/modules/Validations/Validations.ts'
 
 export default Vue.extend({
   components: {
@@ -54,25 +52,7 @@ export default Vue.extend({
       activeTab: 0,
       isLoading: false,
       isRulesOpen: false,
-      rules: [
-        {
-          title: 'Cabeçalhos HTML',
-          options: [{
-            isChecked: true,
-            label: 'Toda página deve ter 1 e somente 1 tag &lt;h1&gt;'
-          },{
-            isChecked: true,
-            label: 'Toda página deve ter 1 e somente 1 tag &lt;title&gt;'
-          }]
-        },
-        {
-          title: 'Metadados básicos',
-          options: [{
-            isChecked: true,
-            label: 'Toda página deve ter um meta description com conteúdo'
-          }]
-        }
-      ]
+      rules: []
     }
   },
   methods: {
@@ -82,9 +62,7 @@ export default Vue.extend({
 
       return await this.$axios.$get(url).then(response => {
         this.isLoading = true;
-        const auditor = new Auditor(Validations);
-        auditor.parseFromString(response.html);
-        console.log(auditor.report);
+        console.log(response);
       }).finally(() => {
         this.isLoading = false;
       });

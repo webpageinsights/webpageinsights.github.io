@@ -39,29 +39,31 @@
     </b-menu-list>
   </b-menu>
   <div class="column is-four-fifths">
-    <b-field label="Seletor CSS">
-      <b-input></b-input>
-    </b-field>
-    <b-field label="Quantidade">
-      <b-select placeholder="Selecione a quantidade" required>
-        <option value="zero">Nenhum</option>
-        <option value="zero-plus">Nenhum ou mais</option>
-        <option value="one">Somente 1</option>
-        <option value="one-plus">1 ou mais</option>
-        <option value="more-than-one">Mais que 1</option>
-      </b-select>
-    </b-field>
+    <ul>
+      <li v-for="(rule, index) in rules" :key="index">
+        <p>{{ruleToText(rule).text}}</p>
+      </li>
+    </ul>
   </div>
   </section>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import InitialRules from '~/modules/Rules/InitialRules'
+import RuleToText from '~/modules/Rules/RuleToText'
+import {Rule, AttributeRule} from '~/modules/Rules/Rules'
 
 export default Vue.extend({
   data() {
     return {
-      isActive: true
+      isActive: true,
+      rules: InitialRules
+    }
+  },
+  methods: {
+    ruleToText(rule: Rule | AttributeRule) {
+      return new RuleToText(rule);
     }
   }
 })
