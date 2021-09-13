@@ -8,19 +8,19 @@ const titleRule: Rule = {
   selector: "head > title"
 };
 
-// Deve haver um e somente um elemento 'body > h1'
+// Deve haver um e somente um elemento 'body h1'
 const h1Rule: Rule = {
   level: "danger",
   length: "one",
-  selector: "body > h1",
+  selector: "body h1",
   group: "Headings"
 };
 
-// Deve haver ao menos um elemento 'body > h2'
+// Deve haver ao menos um elemento 'body h2'
 const h2Rule: Rule = {
   level: "danger",
   length: "some",
-  selector: "body > h2",
+  selector: "body h2",
   group: "Headings"
 };
 
@@ -48,7 +48,7 @@ const metaDescriptionMin: AttributeRule<number> = {
   length: "one",
   selector: 'head > meta[name="description"]',
   group: "Metadata",
-  attribute: "href",
+  attribute: "content",
   method: "minLength",
   toBe: 40
 };
@@ -59,7 +59,7 @@ const metaDescriptionMax: AttributeRule<number> = {
   length: "one",
   selector: 'head > meta[name="description"]',
   group: "Metadata",
-  attribute: "href",
+  attribute: "content",
   method: "maxLength",
   toBe: 200
 };
@@ -79,7 +79,7 @@ const robotsRule: AttributeRule = {
 const altImageRule: AttributeRule = {
   level: "danger",
   length: "none",
-  selector: "body > img",
+  selector: "body img",
   group: "Images",
   attribute: "alt",
   method: "doesNotExist"
@@ -89,7 +89,7 @@ const altImageRule: AttributeRule = {
 const widthImageRule: AttributeRule<number> = {
   level: "warning",
   length: "none",
-  selector: "body > img",
+  selector: "body img",
   group: "Images",
   attribute: "width",
   method: "isNotNumber"
@@ -99,7 +99,7 @@ const widthImageRule: AttributeRule<number> = {
 const heigthImageRule: AttributeRule<number> = {
   level: "warning",
   length: "none",
-  selector: "body > img",
+  selector: "body img",
   group: "Images",
   attribute: "heigth",
   method: "isNotNumber"
@@ -109,7 +109,7 @@ const heigthImageRule: AttributeRule<number> = {
 const imgLazyLoading: AttributeRule = {
   level: 'info',
   length: 'none',
-  selector: 'body > img',
+  selector: 'body img',
   group: "Images",
   attribute: 'loading',
   method: "isNotEqual",
@@ -120,7 +120,7 @@ const imgLazyLoading: AttributeRule = {
 const h2Rules: Rule = {
   level: 'info',
   length: 'some',
-  selector: 'body > h2:not(empty)',
+  selector: 'body h2:not(empty)',
   group: 'Headings'
 };
 
@@ -128,14 +128,13 @@ const h2Rules: Rule = {
 const themeColor: AttributeRule = {
   level: 'info',
   length: "one",
-  selector: 'meta[name="theme-color"]',
+  selector: 'head > meta[name="theme-color"]',
   group: "PWA",
   attribute: "content",
   method: "exists"
 };
 
-
-const InitialRules: ReadonlyArray<Rule| AttributeRule<string | number>> = [
+const InitialRules: Array<Rule| AttributeRule<string | number>> = [
   titleRule,
   h1Rule,
   h2Rule,

@@ -15,6 +15,45 @@
             :disabled="areAllUrlsValid === false"
             @click="processUrls"
           />
+          <div v-if="isLoading === false && report.length > 0">
+            <h2 class="title is-2">Auditoria finalizada</h2>
+            <h3 class="title is-3">Auditorias reprovadas ({{report.filter(i => i.isApproved === false).length}})</h3>
+            <details v-for="(item, index) in report.filter(i => i.isApproved === false)" :key="index" class="box">
+              <summary>
+                <span
+                  class="tag"
+                  :class="{
+                    'is-danger': item.level === 'danger',
+                    'is-warning': item.level === 'warning',
+                    'is-info': item.level === 'info'}
+                 ">
+                  {{item.level}}
+                </span>
+                <span>{{item.text}}</span>
+              </summary>
+              <div>
+                {{item}}
+              </div>
+            </details>
+            <h3 class="title is-3">Auditorias aprovadas ({{report.filter(i => i.isApproved).length}})</h3>
+            <details v-for="(item, index) in report.filter(i => i.isApproved)" :key="index" class="box">
+              <summary>
+                <span
+                  class="tag"
+                  :class="{
+                    'is-danger': item.level === 'danger',
+                    'is-warning': item.level === 'warning',
+                    'is-info': item.level === 'info'}
+                 ">
+                  {{item.level}}
+                </span>
+                <span>{{item.text}}</span>
+              </summary>
+              <div>
+                {{item}}
+              </div>
+            </details>
+          </div>
         </b-tab-item>
         <b-tab-item label="Código HTML" icon="code-tags">
           <div class="field">
@@ -40,6 +79,8 @@
 <script type="typescript">
 import Vue from 'vue'
 import Rules from '~/components/Rules.vue'
+import RulesToReport from '~/modules/Rules/RulesToReport'
+import InitialRules from '~/modules/Rules/InitialRules'
 
 export default Vue.extend({
   components: {
@@ -52,7 +93,7 @@ export default Vue.extend({
       activeTab: 0,
       isLoading: false,
       isRulesOpen: false,
-      rules: []
+      report: []
     }
   },
   methods: {
@@ -62,7 +103,8 @@ export default Vue.extend({
 
       return await this.$axios.$get(url).then(response => {
         this.isLoading = true;
-        console.log(response);
+        debugger;
+        this.report = new RulesToReport(response.html, InitialRules).report;
       }).finally(() => {
         this.isLoading = false;
       });
