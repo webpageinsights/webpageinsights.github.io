@@ -71,7 +71,7 @@ describe('RulesToExport tests', function() {
         "method": "maxLength",
         "toBe": "10"
       }
-    ]
+    ];
 
     const complexReport = new RulesToExport(complexHTML, complexRules);
     expect(complexReport.report.length).toBe(complexRules.length);
@@ -79,42 +79,9 @@ describe('RulesToExport tests', function() {
     expect(complexReport.report[0].targets.all.length).toBe(1);
     expect(complexReport.report[0].targets.approved.length).toBe(1);
     expect(complexReport.report[0].targets.disapproved.length).toBe(0);
-
     expect(complexReport.report[1].isApproved).toBe(false);
     expect(complexReport.report[2].isApproved).toBe(true);
     expect(complexReport.report[3].isApproved).toBe(false);
-
-  //   [
-  //   {
-  //     id: undefined,
-  //       group: undefined,
-  //     level: 'warning',
-  //     text: "Recomenda-se que não exista elemento algum 'img'",
-  //     isApproved: false,
-  //     targets: { all: NodeList {}, approved: NodeList {}, disapproved: [] }
-  //   },
-  //   {
-  //     id: undefined,
-  //       group: undefined,
-  //     level: 'danger',
-  //     text: `Deve haver um e somente um elemento 'meta[name="description"]' com atributo 'content' com tamanho mínimo de '5'`,
-  //     isApproved: false,
-  //     targets: { all: NodeList {}, approved: [], disapproved: [Array] }
-  //   },
-  //   {
-  //     id: undefined,
-  //       group: undefined,
-  //     level: 'danger',
-  //     text: `Deve haver um e somente um elemento 'meta[name="description"]' com atributo 'content' com tamanho máximo de '10'`,
-  //     isApproved: false,
-  //     targets: { all: NodeList {}, approved: [], disapproved: [Array] }
-  //   }
-  // ]
-
-
   });
-
-
-
 
 });
