@@ -6,9 +6,9 @@ type ReportLine = Pick<Rule, 'id' | 'level' | 'group'> & {
   text: string;
   isApproved: boolean;
   targets: {
-    all: NodeListOf<Element>,
-    approved: Element[],
-    disapproved: Element[]
+    all: Element[] | NodeListOf<Element>,
+    approved: Element[] | NodeListOf<Element>,
+    disapproved: Element[] | NodeListOf<Element>
   }
 }
 
@@ -29,10 +29,18 @@ export default class RulesToReport {
   constructor(htmlString: string, rules: Array<Rule | AttributeRule<string | number>>) {
     const documentElement = RulesToReport.stringToHTML(htmlString);
 
-    this.report = rules.map((rule: Rule) : ReportLine => {
-      const targets: NodeListOf<Element> = documentElement.querySelectorAll(rule.selector) || [];
 
-      const [approved, disapproved] = !RulesToReport.isAttributeRule(rule) ? [[], []] :
+    this.report = rules.map((rule: Rule) : ReportLine => {
+      const targets: NodeListOf<Element> | Element[] = documentElement.querySelectorAll(rule.selector) || [];
+
+      const lengthValidations: {[key in Rule['length']]: () => boolean} = {
+        one: () => targets.length === 1,
+        some: () => targets.length >= 1,
+        any: () => targets.length >= 0,
+        none: () => targets.length === 0
+      };
+
+      const [approved, disapproved] = !RulesToReport.isAttributeRule(rule) ? [targets, []] :
         Array.from(targets).reduce((total: Element[][], target) => {
           const attributeValue = target.getAttribute(rule.attribute);
           const isApproved = attributeValue && rule.toBe ? RuleMethods[rule.method](attributeValue, rule.toBe) : false;
@@ -45,7 +53,7 @@ export default class RulesToReport {
         group: rule.group,
         level: rule.level,
         text: new RuleToText(rule).text,
-        isApproved: disapproved.length > 0,
+        isApproved: lengthValidations[rule.length]() && disapproved.length === 0,
         targets: {
           all: targets,
           approved: approved,

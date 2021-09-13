@@ -12,14 +12,38 @@ const doesNotContain = (value: string, toBe: string): boolean => {
   return contains(value, toBe) === false;
 };
 
+const minLength = (value: string, toBe: string): boolean => {
+  return value ? value.length >= Number(toBe) : false;
+};
+
+const maxLength = (value: string, toBe: string): boolean => {
+  return value ? value.length <= Number(toBe) : false;
+};
+
+const exists = (value: string): boolean => {
+  return typeof value !== 'undefined';
+};
+
+const doesNotExist = (value: string): boolean => {
+  return exists(value) === false;
+};
+
+const isEqual = (value: string, toBe: string): boolean => {
+  return value === toBe;
+};
+
+const isNotEqual = (value: string, toBe: string): boolean => {
+  return isEqual(value, toBe) === false;
+};
+
 const RuleMethods: RuleMethodsType = {
-  isEqual: x => false,
-  isNotEqual:x => false,
+  isEqual,
+  isNotEqual,
   absoluteUrl:x => false,
-  minLength: x => false,
-  maxLength:x => false,
-  exists: x => false,
-  doesNotExist:x => false,
+  minLength,
+  maxLength,
+  exists,
+  doesNotExist,
   isNumber:  x => false,
   isNotNumber:x => false,
   contains,
