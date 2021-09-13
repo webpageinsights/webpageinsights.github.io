@@ -5,8 +5,8 @@
       <b-tabs v-model="activeTab">
         <b-tab-item label="URLs" icon="format-list-bulleted-square">
           <div class="field">
-            <b-field label="Insira 1 url por linha até 10 linhas.">
-              <b-input v-model="urls" type="textarea" :disabled="isLoading"></b-input>
+            <b-field label="Insira 1 url válida">
+              <b-input v-model="urls" type="text" :disabled="isLoading"></b-input>
             </b-field>
           </div>
           <b-button
@@ -26,7 +26,7 @@
             </report-section>
           </div>
         </b-tab-item>
-        <b-tab-item label="Código HTML" icon="code-tags">
+        <b-tab-item label="Código HTML" icon="code-tags" v-if="false">
           <div class="field">
             <b-field label="Insira código HTML válido">
               <b-input v-model="html" type="textarea" :disabled="isLoading"></b-input>
