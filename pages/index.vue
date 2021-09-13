@@ -15,44 +15,15 @@
             :disabled="areAllUrlsValid === false"
             @click="processUrls"
           />
-          <div v-if="isLoading === false && report.length > 0">
-            <h2 class="title is-2">Auditoria finalizada</h2>
-            <h3 class="title is-3">Auditorias reprovadas ({{report.filter(i => i.isApproved === false).length}})</h3>
-            <details v-for="(item, index) in report.filter(i => i.isApproved === false)" :key="index" class="box">
-              <summary>
-                <span
-                  class="tag"
-                  :class="{
-                    'is-danger': item.level === 'danger',
-                    'is-warning': item.level === 'warning',
-                    'is-info': item.level === 'info'}
-                 ">
-                  {{item.level}}
-                </span>
-                <span>{{item.text}}</span>
-              </summary>
-              <div>
-                {{item}}
-              </div>
-            </details>
-            <h3 class="title is-3">Auditorias aprovadas ({{report.filter(i => i.isApproved).length}})</h3>
-            <details v-for="(item, index) in report.filter(i => i.isApproved)" :key="index" class="box">
-              <summary>
-                <span
-                  class="tag"
-                  :class="{
-                    'is-danger': item.level === 'danger',
-                    'is-warning': item.level === 'warning',
-                    'is-info': item.level === 'info'}
-                 ">
-                  {{item.level}}
-                </span>
-                <span>{{item.text}}</span>
-              </summary>
-              <div>
-                {{item}}
-              </div>
-            </details>
+          <div v-if="isLoading === false && (report.approved.length > 0 || report.disapproved.length > 0)">
+            <report-section
+              title="Auditorias reprovadas"
+              :report="report.disapproved">
+            </report-section>
+            <report-section
+              title="Auditorias aprovadas"
+              :report="report.approved">
+            </report-section>
           </div>
         </b-tab-item>
         <b-tab-item label="Código HTML" icon="code-tags">
@@ -79,12 +50,14 @@
 <script type="typescript">
 import Vue from 'vue'
 import Rules from '~/components/Rules.vue'
+import ReportSection from '~/components/ReportSection'
 import RulesToReport from '~/modules/Rules/RulesToReport'
 import InitialRules from '~/modules/Rules/InitialRules'
 
 export default Vue.extend({
   components: {
-    Rules
+    Rules,
+    ReportSection
   },
   data() {
     return {
@@ -93,7 +66,10 @@ export default Vue.extend({
       activeTab: 0,
       isLoading: false,
       isRulesOpen: false,
-      report: []
+      report: {
+        approved: [],
+        disapproved: []
+      }
     }
   },
   methods: {
@@ -103,8 +79,11 @@ export default Vue.extend({
 
       return await this.$axios.$get(url).then(response => {
         this.isLoading = true;
-        debugger;
-        this.report = new RulesToReport(response.html, InitialRules).report;
+        const report = new RulesToReport(response.html, InitialRules).report;
+        this.report = {
+          approved: report.filter(r => r.isApproved),
+          disapproved: report.filter(r => r.isApproved === false),
+        };
       }).finally(() => {
         this.isLoading = false;
       });
