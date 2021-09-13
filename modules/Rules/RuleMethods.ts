@@ -36,16 +36,28 @@ const isNotEqual = (value: string, toBe: string): boolean => {
   return isEqual(value, toBe) === false;
 };
 
+const absoluteUrl = (value: string): boolean => {
+  return /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/.test(value);
+};
+
+const isNumber = (value: string): boolean => {
+  return /^-?[0-9]+$/.test(value);
+};
+
+const isNotNumber = (value: string): boolean => {
+  return isNumber(value) === false;
+};
+
 const RuleMethods: RuleMethodsType = {
   isEqual,
   isNotEqual,
-  absoluteUrl:x => false,
+  absoluteUrl,
   minLength,
   maxLength,
   exists,
   doesNotExist,
-  isNumber:  x => false,
-  isNotNumber:x => false,
+  isNumber,
+  isNotNumber,
   contains,
   doesNotContain
 };
