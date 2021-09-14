@@ -37,14 +37,14 @@ export default class RulesToReport {
         one: () => targets.length === 1,
         some: () => targets.length >= 1,
         any: () => targets.length >= 0,
-        none: () => targets.length === 0
+        none: () => targets.length !== 0
       };
 
       const [approved, disapproved] = !RulesToReport.isAttributeRule(rule) ? [targets, []] :
         Array.from(targets).reduce((total: Element[][], target) => {
           const attributeValue = target.getAttribute(rule.attribute);
-          const isApproved = attributeValue && rule.toBe ? RuleMethods[rule.method](attributeValue, rule.toBe) : false;
-          total[isApproved ? 0 : 1].push(target);
+          const isApproved = attributeValue ? RuleMethods[rule.method](attributeValue, rule.toBe ? rule.toBe : null) : false;
+          rule.length == 'none' ? total[isApproved ? 1 : 0].push(target) : total[isApproved ? 0 : 1].push(target);
           return total;
         }, [[], []]);
 

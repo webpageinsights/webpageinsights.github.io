@@ -1,22 +1,22 @@
 import {AttributeRule} from '~/modules/Rules/Rules'
 
-type RuleMethodsType<T extends string | number = string> = {
+type RuleMethodsType<T extends string | null = string> = {
   [key in AttributeRule['method']] : (value: string, toBe: T) => boolean
 }
 
-const contains = (value: string, toBe: string): boolean => {
+const contains = (value: string, toBe: string | null = ''): boolean => {
   return toBe ? value.includes(toBe) : false;
 };
 
-const doesNotContain = (value: string, toBe: string): boolean => {
+const doesNotContain = (value: string, toBe: string | null = ''): boolean => {
   return contains(value, toBe) === false;
 };
 
-const minLength = (value: string, toBe: string): boolean => {
+const minLength = (value: string, toBe: string | null = ''): boolean => {
   return value ? value.length >= Number(toBe) : false;
 };
 
-const maxLength = (value: string, toBe: string): boolean => {
+const maxLength = (value: string, toBe: string | null = ''): boolean => {
   return value ? value.length <= Number(toBe) : false;
 };
 
@@ -28,11 +28,11 @@ const doesNotExist = (value: string): boolean => {
   return exists(value) === false;
 };
 
-const isEqual = (value: string, toBe: string): boolean => {
+const isEqual = (value: string, toBe: string | null = ''): boolean => {
   return value === toBe;
 };
 
-const isNotEqual = (value: string, toBe: string): boolean => {
+const isNotEqual = (value: string, toBe: string | null = ''): boolean => {
   return isEqual(value, toBe) === false;
 };
 
@@ -48,7 +48,7 @@ const isNotNumber = (value: string): boolean => {
   return isNumber(value) === false;
 };
 
-const RuleMethods: RuleMethodsType = {
+const RuleMethods: RuleMethodsType<string | null> = {
   isEqual,
   isNotEqual,
   absoluteUrl,

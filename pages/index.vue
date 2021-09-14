@@ -6,15 +6,24 @@
         <b-tab-item label="URL" icon="format-list-bulleted-square">
           <div class="field">
             <b-field label="Insira 1 url válida">
-              <b-input v-model="urls" type="text" :disabled="isLoading"></b-input>
+              <b-input
+                v-model="urls"
+                expanded
+                type="text"
+                name="url"
+                @keyup.enter="processUrls"
+                :disabled="isLoading">
+              </b-input>
+              <p class="control">
+                <b-button
+                  label="Testar url"
+                  :type="isLoading ? 'is-loading is-info' : 'is-info'"
+                  :disabled="areAllUrlsValid === false"
+                  @click="processUrls"
+                />
+              </p>
             </b-field>
           </div>
-          <b-button
-            label="Testar url"
-            :type="isLoading ? 'is-loading is-info' : 'is-info'"
-            :disabled="areAllUrlsValid === false"
-            @click="processUrls"
-          />
           <div v-if="isLoading === false && (report.approved.length > 0 || report.disapproved.length > 0)">
             <report-section
               icon="alert-octagon"
