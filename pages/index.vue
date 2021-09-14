@@ -11,7 +11,7 @@
                 expanded
                 type="text"
                 name="url"
-                @keyup.enter="processUrls"
+                @keyup.native.enter="processUrls"
                 :disabled="isLoading">
               </b-input>
               <p class="control">
