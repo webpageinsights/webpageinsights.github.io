@@ -7,7 +7,7 @@
           <div class="field">
             <b-field label="Insira 1 url válida">
               <b-input
-                v-model="urls"
+                v-model="url"
                 expanded
                 type="text"
                 name="url"
@@ -25,12 +25,34 @@
             </b-field>
           </div>
           <div v-if="isLoading === false && (report.approved.length > 0 || report.disapproved.length > 0)">
+            <section class="section">
+              <p class="title is-1 has-text-success has-text-centered" v-if="false">99</p>
+              <h2 class="subtitle is-4 has-text-centered">
+                <a :href="url" target="_blank" class="is-underlined">
+                  {{url}}
+                  <b-icon
+                    icon="open-in-new"
+                    size="is-small">
+                  </b-icon>
+                </a>
+              </h2>
+            </section>
             <report-section
               icon="alert-octagon"
+              subtitle="Algumas auditorias reprovadas nessa página indicam pontos críticos de atenção que podem impactar diretamente o SEO. Navegue pela lista e receba mais informações."
               type="disapproved"
-              title="Auditorias reprovadas"
-              :report="report.disapproved">
+              title="Auditorias reprovadas: pontos críticos"
+              :report="report.disapprovedDanger">
             </report-section>
+
+            <report-section
+              icon="alert-octagon"
+              type="disapprovedNotDanger"
+              subtitle="Algumas auditorias reprovadas nessa página indicam oportunidades de melhoria que podem melhorar o desempenho de sua página"
+              title="Auditorias reprovadas: oportunidades de melhoria"
+              :report="report.disapprovedNotDanger">
+            </report-section>
+
             <report-section
               icon="alert-circle-check"
               type="approved"
@@ -61,7 +83,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      urls: '',
+      url: '',
       html: '',
       activeTab: 0,
       isLoading: false,
@@ -82,7 +104,8 @@ export default Vue.extend({
         const report = new RulesToReport(response.html, InitialRules).report;
         this.report = {
           approved: report.filter(r => r.isApproved),
-          disapproved: report.filter(r => r.isApproved === false),
+          disapprovedDanger: report.filter(r => r.isApproved === false && r.level === 'danger'),
+          disapprovedNotDanger: report.filter(r => r.isApproved === false && r.level !== 'danger'),
         };
       }).finally(() => {
         this.isLoading = false;
@@ -95,7 +118,7 @@ export default Vue.extend({
       return this.urlsLists.every(url => url.match(urlPattern))
     },
     urlsLists() {
-      return this.urls.split('\n')
+      return this.url.split('\n')
     }
   }
 })

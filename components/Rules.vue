@@ -38,10 +38,10 @@
       <b-button label="Exportar" type="is-link" icon-left="download"></b-button>
     </b-menu-list>
   </b-menu>
-  <div class="column is-four-fifths">
+  <div class="column is-four-fifths content">
     <ul>
       <li v-for="(rule, index) in rules" :key="index">
-        <p>{{ruleToText(rule).text}}</p>
+        <p class="block">{{ruleToText(rule).text}}</p>
       </li>
     </ul>
   </div>

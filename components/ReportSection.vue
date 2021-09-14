@@ -1,13 +1,13 @@
 <template>
   <div class="block" style="margin-top: 40px;">
-    <p class="title is-5">
+    <h2 class="title is-5">
       <b-icon
         :icon="icon"
-        :type="type === 'approved' ? 'is-success' : 'is-danger' "
+        :type="{'is-success': type === 'approved', 'is-danger': type === 'disapproved', 'is-warning': type === 'disapprovedNotDanger' }"
         size="is-small">
       </b-icon>
       <span style="margin-left: 10px;">{{title}} ({{report.length}})</span>
-    </p>
+    </h2>
     <b-collapse
       class="card"
       animation="slide"
@@ -98,6 +98,11 @@ export default Vue.extend({
     title: {
       type: String,
       required: true
+    },
+    subtitle: {
+      type: String,
+      required: false,
+      default: ''
     },
     report: {
       type: Array,
