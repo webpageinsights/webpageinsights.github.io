@@ -3,47 +3,38 @@
     <section class="section">
       <h1 class="title">Suas páginas usam boas práticas de SEO? </h1>
       <b-tabs v-model="activeTab">
-        <b-tab-item label="URLs" icon="format-list-bulleted-square">
+        <b-tab-item label="URL" icon="format-list-bulleted-square">
           <div class="field">
             <b-field label="Insira 1 url válida">
               <b-input v-model="urls" type="text" :disabled="isLoading"></b-input>
             </b-field>
           </div>
           <b-button
-            label="Testar urls"
-            type="is-info"
+            label="Testar url"
+            :type="isLoading ? 'is-loading is-info' : 'is-info'"
             :disabled="areAllUrlsValid === false"
             @click="processUrls"
           />
           <div v-if="isLoading === false && (report.approved.length > 0 || report.disapproved.length > 0)">
             <report-section
+              icon="alert-octagon"
+              type="disapproved"
               title="Auditorias reprovadas"
               :report="report.disapproved">
             </report-section>
             <report-section
+              icon="alert-circle-check"
+              type="approved"
               title="Auditorias aprovadas"
               :report="report.approved">
             </report-section>
           </div>
-        </b-tab-item>
-        <b-tab-item label="Código HTML" icon="code-tags" v-if="false">
-          <div class="field">
-            <b-field label="Insira código HTML válido">
-              <b-input v-model="html" type="textarea" :disabled="isLoading"></b-input>
-            </b-field>
-          </div>
-          <b-button
-            label="Testar código"
-            type="is-info"
-            :disabled="areAllUrlsValid === false"
-          />
         </b-tab-item>
         <b-tab-item label="Configurações" icon="cog">
           <rules></rules>
         </b-tab-item>
       </b-tabs>
     </section>
-    <b-loading :is-full-page="true" v-model="isLoading" :can-cancel="false"></b-loading>
   </div>
 </template>
 
@@ -76,9 +67,9 @@ export default Vue.extend({
     async processUrls() {
       const appScriptId = 'AKfycbzAjIXbOKHT4wSkGoKTkKeXWGuEr5-suBX7BOqew6stjxdLyEBUYSxfgyUCBnC1crNP';
       const url = `https://script.google.com/macros/s/${appScriptId}/exec?url=${this.urlsLists[0]}`;
+      this.isLoading = true;
 
       return await this.$axios.$get(url).then(response => {
-        this.isLoading = true;
         const report = new RulesToReport(response.html, InitialRules).report;
         this.report = {
           approved: report.filter(r => r.isApproved),
