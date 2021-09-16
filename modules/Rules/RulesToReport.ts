@@ -13,7 +13,9 @@ type ReportLine = Pick<Rule, 'id' | 'level' | 'group' | 'selector'> & {
 }
 
 export default class RulesToReport {
-  report: ReportLine[];
+  results: ReportLine[];
+  url: string;
+  date: Date;
 
   private static isAttributeRule(ruleType: Rule | AttributeRule): ruleType is AttributeRule {
     return (ruleType as AttributeRule).attribute !== undefined;
@@ -26,11 +28,12 @@ export default class RulesToReport {
     return doc.documentElement || document.createElement('html');
   };
 
-  constructor(htmlString: string, rules: Array<Rule | AttributeRule<string | number>>) {
+  constructor(url: string, htmlString: string, rules: Array<Rule | AttributeRule<string | number>>) {
     const documentElement = RulesToReport.stringToHTML(htmlString);
+    this.url = url;
+    this.date = new Date();
 
-
-    this.report = rules.map((rule: Rule) : ReportLine => {
+    this.results = rules.map((rule: Rule) : ReportLine => {
       const targets: NodeListOf<Element> | Element[] = documentElement.querySelectorAll(rule.selector) || [];
 
       const lengthValidations: {[key in Rule['length']]: () => boolean} = {

@@ -8,7 +8,7 @@ describe('RulesToExport tests', function() {
       length: 'one',
       selector: 'title'
     }];
-    const report = new RulesToExport('<html><body><h1>test</h1></body></html>', sampleRules).report;
+    const report = new RulesToExport('https://github.com', '<html><body><h1>test</h1></body></html>', sampleRules).results;
     expect(report).toBeDefined();
   })
 
@@ -23,10 +23,10 @@ describe('RulesToExport tests', function() {
       toBe: 'potato'
     };
 
-    const report = new RulesToExport('<div><img alt="potatos are tasty"><img alt="tomato"><img></div>', [ruleWithMethod]);
-    expect(report.report[0].targets.all.length).toBe(3);
-    expect(report.report[0].targets.approved.length).toBe(1);
-    expect(report.report[0].targets.disapproved.length).toBe(2);
+    const report = new RulesToExport('https://github.com', '<div><img alt="potatos are tasty"><img alt="tomato"><img></div>', [ruleWithMethod]);
+    expect(report.results[0].targets.all.length).toBe(3);
+    expect(report.results[0].targets.approved.length).toBe(1);
+    expect(report.results[0].targets.disapproved.length).toBe(2);
 
     const complexHTML = `<html>
       <head>
@@ -73,15 +73,15 @@ describe('RulesToExport tests', function() {
       }
     ];
 
-    const complexReport = new RulesToExport(complexHTML, complexRules);
-    expect(complexReport.report.length).toBe(complexRules.length);
-    expect(complexReport.report[0].isApproved).toBe(true);
-    expect(complexReport.report[0].targets.all.length).toBe(1);
-    expect(complexReport.report[0].targets.approved.length).toBe(1);
-    expect(complexReport.report[0].targets.disapproved.length).toBe(0);
-    expect(complexReport.report[1].isApproved).toBe(false);
-    expect(complexReport.report[2].isApproved).toBe(true);
-    expect(complexReport.report[3].isApproved).toBe(false);
+    const complexReport = new RulesToExport('https://github.com', complexHTML, complexRules);
+    expect(complexReport.results.length).toBe(complexRules.length);
+    expect(complexReport.results[0].isApproved).toBe(true);
+    expect(complexReport.results[0].targets.all.length).toBe(1);
+    expect(complexReport.results[0].targets.approved.length).toBe(1);
+    expect(complexReport.results[0].targets.disapproved.length).toBe(0);
+    expect(complexReport.results[1].isApproved).toBe(false);
+    expect(complexReport.results[2].isApproved).toBe(true);
+    expect(complexReport.results[3].isApproved).toBe(false);
   });
 
 });

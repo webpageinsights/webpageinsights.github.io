@@ -18,18 +18,18 @@
                 <b-button
                   label="Testar url"
                   :type="isLoading ? 'is-loading is-info' : 'is-info'"
-                  :disabled="areAllUrlsValid === false"
+                  :disabled="isValidUrl === false"
                   @click="processUrls"
                 />
               </p>
             </b-field>
           </div>
-          <div v-if="isLoading === false && (report.approved.length > 0 || report.disapproved.length > 0)">
+          <div v-if="isLoading === false">
             <section class="section">
               <p class="title is-1 has-text-success has-text-centered" v-if="false">99</p>
-              <h2 class="subtitle is-4 has-text-centered">
+              <h2 class="subtitle is-4 has-text-centered" v-if="report.url">
                 <a :href="url" target="_blank" class="is-underlined">
-                  {{url}}
+                  {{report.url}}
                   <b-icon
                     icon="open-in-new"
                     size="is-small">
@@ -38,27 +38,29 @@
               </h2>
             </section>
             <report-section
+              v-if="report.results"
               icon="alert-octagon"
-              subtitle="Algumas auditorias reprovadas nessa página indicam pontos críticos de atenção que podem impactar diretamente o SEO. Navegue pela lista e receba mais informações."
               type="disapproved"
               title="Auditorias reprovadas: pontos críticos"
-              :report="report.disapprovedDanger">
+              :report="report.results | areDisapprovedDanger ">
             </report-section>
 
             <report-section
+              v-if="report.results"
               icon="alert-octagon"
               type="disapprovedNotDanger"
-              subtitle="Algumas auditorias reprovadas nessa página indicam oportunidades de melhoria que podem melhorar o desempenho de sua página"
               title="Auditorias reprovadas: oportunidades de melhoria"
-              :report="report.disapprovedNotDanger">
+              :report="report.results | areDisapprovedWithoutDanger">
             </report-section>
 
             <report-section
+              v-if="report.results"
               icon="alert-circle-check"
               type="approved"
               title="Auditorias aprovadas"
-              :report="report.approved">
+              :report="report.results | areApproved ">
             </report-section>
+
           </div>
         </b-tab-item>
         <b-tab-item label="Configurações" icon="cog">
@@ -84,41 +86,38 @@ export default Vue.extend({
   data() {
     return {
       url: '',
-      html: '',
       activeTab: 0,
       isLoading: false,
-      isRulesOpen: false,
-      report: {
-        approved: [],
-        disapproved: []
-      }
+      report: {}
+    }
+  },
+  filters: {
+    areApproved(results) {
+      return results.filter(r => r.isApproved);
+    },
+    areDisapprovedDanger(results) {
+      return results.filter(r => r.isApproved === false && r.level === 'danger');
+    },
+    areDisapprovedWithoutDanger(results) {
+      return results.filter(r => r.isApproved === false && r.level !== 'danger');
     }
   },
   methods: {
     async processUrls() {
       const appScriptId = 'AKfycbzAjIXbOKHT4wSkGoKTkKeXWGuEr5-suBX7BOqew6stjxdLyEBUYSxfgyUCBnC1crNP';
-      const url = `https://script.google.com/macros/s/${appScriptId}/exec?url=${this.urlsLists[0]}`;
+      const url = `https://script.google.com/macros/s/${appScriptId}/exec?url=${this.url}`;
       this.isLoading = true;
-
       return await this.$axios.$get(url).then(response => {
-        const report = new RulesToReport(response.html, InitialRules).report;
-        this.report = {
-          approved: report.filter(r => r.isApproved),
-          disapprovedDanger: report.filter(r => r.isApproved === false && r.level === 'danger'),
-          disapprovedNotDanger: report.filter(r => r.isApproved === false && r.level !== 'danger'),
-        };
+        this.report = new RulesToReport(this.url, response.html, InitialRules);
       }).finally(() => {
         this.isLoading = false;
       });
     }
   },
   computed: {
-    areAllUrlsValid() {
+    isValidUrl() {
       const urlPattern = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
-      return this.urlsLists.every(url => url.match(urlPattern))
-    },
-    urlsLists() {
-      return this.url.split('\n')
+      return this.url.match(urlPattern);
     }
   }
 })
