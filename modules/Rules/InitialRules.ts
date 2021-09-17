@@ -4,7 +4,7 @@ import {Rule, AttributeRule} from '~/modules/Rules/Rules'
 const titleRule: Rule = {
   level: "danger",
   length: "one",
-  group: "Headings",
+  category: "headings",
   selector: "head > title"
 };
 
@@ -13,7 +13,7 @@ const h1Rule: Rule = {
   level: "danger",
   length: "one",
   selector: "body h1",
-  group: "Headings"
+  category: "headings"
 };
 
 // Deve haver ao menos um elemento 'body h2'
@@ -21,7 +21,7 @@ const h2Rule: Rule = {
   level: "danger",
   length: "some",
   selector: "body h2",
-  group: "Headings"
+  category: "headings"
 };
 
 // Pode haver zero ou mais elementos 'noscript'
@@ -29,7 +29,7 @@ const noScriptRule: Rule = {
   level: "danger",
   length: "any",
   selector: 'noscript',
-  group: "Structure"
+  category: "structure"
 };
 
 // Deve haver um e somente um elemento 'head > link[rel='canonical']' com atributo 'href' como url absoluta
@@ -37,7 +37,7 @@ const canonicalRule: AttributeRule = {
   level: "danger",
   length: "one",
   selector: "head > link[rel='canonical']",
-  group: "Metadata",
+  category: "metadata",
   attribute: 'href',
   method: "absoluteUrl"
 };
@@ -47,7 +47,7 @@ const metaDescriptionMin: AttributeRule<number> = {
   level: "warning",
   length: "one",
   selector: 'head > meta[name="description"]',
-  group: "Metadata",
+  category: "metadata",
   attribute: "content",
   method: "minLength",
   toBe: 40
@@ -58,7 +58,7 @@ const metaDescriptionMax: AttributeRule<number> = {
   level: "danger",
   length: "one",
   selector: 'head > meta[name="description"]',
-  group: "Metadata",
+  category: "metadata",
   attribute: "content",
   method: "maxLength",
   toBe: 200
@@ -69,7 +69,7 @@ const robotsRule: AttributeRule = {
   level: "warning",
   length: "one",
   selector: 'head > meta[name="robots"]',
-  group: "Metadata",
+  category: "metadata",
   attribute: 'content',
   method: "isEqual",
   toBe: 'index, follow'
@@ -80,7 +80,7 @@ const altImageRule: AttributeRule = {
   level: "danger",
   length: "none",
   selector: "body img",
-  group: "Images",
+  category: "images",
   attribute: "alt",
   method: "doesNotExist"
 };
@@ -90,7 +90,7 @@ const widthImageRule: AttributeRule<number> = {
   level: "warning",
   length: "none",
   selector: "body img",
-  group: "Images",
+  category: "images",
   attribute: "width",
   method: "isNotNumber"
 };
@@ -100,7 +100,7 @@ const heigthImageRule: AttributeRule<number> = {
   level: "warning",
   length: "none",
   selector: "body img",
-  group: "Images",
+  category: "images",
   attribute: "heigth",
   method: "isNotNumber"
 };
@@ -110,7 +110,7 @@ const imgLazyLoading: AttributeRule = {
   level: 'info',
   length: 'none',
   selector: 'body img',
-  group: "Images",
+  category: "images",
   attribute: 'loading',
   method: "isNotEqual",
   toBe: 'lazy'
@@ -121,7 +121,7 @@ const h2Rules: Rule = {
   level: 'info',
   length: 'some',
   selector: 'body h2:not(empty)',
-  group: 'Headings'
+  category: 'headings'
 };
 
 // Dica: tente utilizar um e somente um elemento 'meta[name="theme-color"]' com atributo 'content' existente
@@ -129,7 +129,7 @@ const themeColor: AttributeRule = {
   level: 'info',
   length: "one",
   selector: 'head > meta[name="theme-color"]',
-  group: "PWA",
+  category: "pwa",
   attribute: "content",
   method: "exists"
 };

@@ -2,7 +2,7 @@ import {Rule, AttributeRule} from '~/modules/Rules/Rules'
 import RuleToText from '~/modules/Rules/RuleToText'
 import RuleMethods from '~/modules/Rules/RuleMethods'
 
-type ReportLine = Pick<Rule, 'id' | 'level' | 'group' | 'selector'> & {
+type ReportLine = Pick<Rule, 'id' | 'level' | 'category' | 'selector'> & {
   text: string;
   isApproved: boolean;
   targets: {
@@ -53,7 +53,7 @@ export default class RulesToReport {
 
       return {
         id: rule.id,
-        group: rule.group,
+        category: rule.category,
         level: rule.level,
         text: new RuleToText(rule).text,
         selector: rule.selector,

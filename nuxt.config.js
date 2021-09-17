@@ -34,6 +34,8 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    // https://content.nuxtjs.org/installation
+    '@nuxt/content',
     // https://go.nuxtjs.dev/buefy
     'nuxt-buefy',
     // https://go.nuxtjs.dev/axios
@@ -42,6 +44,9 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {},
+
+  // https://content.nuxtjs.org/configuration
+  content: {},
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {

@@ -3,7 +3,7 @@ export type Rule = {
   level: 'info' | 'warning' | 'danger';
   length: 'any' | 'none' | 'one' | 'some';
   selector: string;
-  group?: "Images" | "Headings" | "Metadata" | "PWA" | "Structure" |  string;
+  category?: "images" | "headings" | "metadata" | "pwa" | "structure" |  string;
 };
 
 export type AttributeRule<T extends string | number = string> = Rule & {

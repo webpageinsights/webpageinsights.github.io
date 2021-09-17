@@ -1,6 +1,6 @@
 <template>
-  <div class="container">
-    <section class="section">
+  <div>
+    <section class="section container">
       <h1 class="title">Suas páginas usam boas práticas de SEO? </h1>
       <b-tabs v-model="activeTab">
         <b-tab-item label="URL" icon="format-list-bulleted-square">
@@ -60,7 +60,6 @@
               title="Auditorias aprovadas"
               :report="report.results | areApproved ">
             </report-section>
-
           </div>
         </b-tab-item>
         <b-tab-item label="Configurações" icon="cog">
@@ -68,18 +67,25 @@
         </b-tab-item>
       </b-tabs>
     </section>
+    <home-footer></home-footer>
   </div>
 </template>
 
 <script type="typescript">
 import Vue from 'vue'
+import HomeFooter from '~/components/HomeFooter'
 import Rules from '~/components/Rules.vue'
 import ReportSection from '~/components/ReportSection'
 import RulesToReport from '~/modules/Rules/RulesToReport'
 import InitialRules from '~/modules/Rules/InitialRules'
 
 export default Vue.extend({
+  // async asyncData(context) {
+    // const rules = await context.$content('rules').fetch();
+    // console.log(rules);
+  // },
   components: {
+    HomeFooter,
     Rules,
     ReportSection
   },

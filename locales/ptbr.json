@@ -26,5 +26,12 @@
     "isNotNumber": "não numérico",
     "contains": "contendo {0}",
     "doesNotContain": "não contendo {0}"
+  },
+  "category": {
+    "images": "Imagens",
+    "headings": "Títulos",
+    "metadata": "Meta dados",
+    "pwa": "PWA",
+    "structure": "Estrutura"
   }
 }
