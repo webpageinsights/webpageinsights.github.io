@@ -1,4 +1,4 @@
-name: Web Page Insights
+name: Web Page Insights Deploy
 
 on:
   push:
