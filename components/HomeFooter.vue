@@ -9,9 +9,10 @@
           </div>
         </div>
       </div>
-      <p class="section">
-        <strong>Seo Assistant</strong> por <a href="https://www.github.com/teles">Teles</a>.
-      </p>
+      <div class="section">
+        <p>
+          <strong>WebPage Insights</strong> is an Open Source project, <a href="https://www.github.com/webpageinsights/webpageinsights.github.io" target="_blank">check the code</a>.</p>
+      </div>
     </div>
   </footer>
 </template>
@@ -23,13 +24,13 @@ export default Vue.extend({
     return {
       footerItems: [{
         title: 'O que são boas práticas para SEO ?',
-        content: 'Algumas características de SEO podem ajudar robôs de busca a melhorar o posicionamento de suas páginas. O SEO Assistant permite descobrir quais são as características a serem corrigidas ou melhoradas em suas páginas.'
+        content: 'Algumas características de SEO podem ajudar robôs de busca a melhorar o posicionamento de suas páginas. O WebPage Insights permite descobrir quais são as características a serem corrigidas ou melhoradas em suas páginas.'
       },{
         title: 'Como funciona?',
         content: 'O SEO Assistant checa metadados da sua página contra regras básicas de SEO inpage. Você pode configurar essas regras de acordo com as necessidades do seu projeto. Teste seus H1, meta description, imagens, e outros.'
       },{
         title: 'Como funciona?',
-        content: 'O SEO Assistant checa metadados da sua página contra regras básicas de SEO inpage. Você pode configurar essas regras de acordo com as necessidades do seu projeto. Teste seus H1, meta description, imagens, e outros.'
+        content: 'O WebPage Insights checa metadados da sua página contra regras básicas de SEO inpage. Você pode configurar essas regras de acordo com as necessidades do seu projeto. Teste seus H1, meta description, imagens, e outros.'
       }]
     }
   }

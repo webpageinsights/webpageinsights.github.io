@@ -3,7 +3,7 @@
     <b-navbar type="is-link">
       <template #brand>
         <b-navbar-item tag="router-link" :to="{ path: '/' }">
-          SEO Assistant
+          WebPage Insights
         </b-navbar-item>
       </template>
       <template #start>

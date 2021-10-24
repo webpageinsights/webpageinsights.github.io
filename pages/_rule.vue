@@ -3,7 +3,7 @@
     <div class="section">
       <nav class="breadcrumb has-arrow-separator" aria-label="breadcrumbs">
         <ul>
-          <li><a href="#">Seo Assistant</a></li>
+          <li><a href="#">WebPage Insights</a></li>
           <li><a href="#">Regras</a></li>
           <li><a href="#">{{rule.category}}</a></li>
           <li class="is-active"><a href="#" aria-current="page">{{title}}</a></li>
@@ -33,7 +33,7 @@ export default Vue.extend({
   },
   head() {
     return {
-      title: 'Título da página | SEO Assistant '
+      title: 'Título da página | WebPage Insights '
     }
   }
 })
