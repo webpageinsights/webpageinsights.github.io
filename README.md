@@ -1,4 +1,4 @@
-# seoassistant
+# WebPage Insights
 
 ## Build Setup
 
